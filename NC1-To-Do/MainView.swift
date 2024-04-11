@@ -19,14 +19,16 @@ struct MainView: View {
                         Text("Kaya")
                             .fontWeight(.bold)
                             .font(.system(size: 16))
+                            .foregroundColor(.customBlack)
                             .frame(width: 100, alignment: .leading)
                             .padding(.bottom, 0.3)
                         Text("포항에서 살아남기")
                             .font(.system(size: 14))
+                            .foregroundColor(.customBlack)
                         
                     }
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                        Text("할일 추가")
+                        Text("할 일 추가")
                             .font(.system(size: 16))
                             .foregroundColor(.white)
                             .padding(.horizontal, 10)
@@ -34,8 +36,12 @@ struct MainView: View {
                             .background(Color.customGreen)
                             .cornerRadius(5)
                     }
-                    ).padding(.leading, 40)
+                    ).padding(.leading, 70)
                 }
+                
+                CalenderView(month: Date())
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 30)
                 
                 
                 
