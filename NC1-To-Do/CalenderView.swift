@@ -21,9 +21,22 @@ struct CalenderView: View {
     
     var body: some View {
         VStack {
-            headerView
-            calendarGridView
+            VStack {
+                headerView
+                calendarGridView
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 20)
+
+            Path { path in
+                path.move(to: CGPoint(x: 20, y: 0))
+                path.addLine(to: CGPoint(x: 375, y: 0))
+            }
+            .stroke(style: StrokeStyle(lineWidth: 1.5, lineCap: .round, dash: [7]))
+            .foregroundColor(.customGray)
+            .frame(height: 10)
         }
+        
     }
     
     // MARK: - 년 월, 성취도, 요일 헤더 뷰
@@ -76,7 +89,7 @@ struct CalenderView: View {
                 .font(.system(size: 24))
                 .fontWeight(.bold)
                 .foregroundColor(.customBlack)
-                
+            
             Button(
                 action: {
                     changeMonth(by: 1)
@@ -146,7 +159,7 @@ private struct CellView: View {
         } else if isCurrentMonthDay {
             return Color.customBlack
         } else {
-            return Color.gray
+            return Color.customGray
         }
     }
     
