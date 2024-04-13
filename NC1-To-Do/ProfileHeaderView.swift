@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileHeaderView: View {
+    @State private var showTodoPad = false
+    
     let profileBackground = Color.white
     
     var body: some View {
@@ -30,20 +32,26 @@ struct ProfileHeaderView: View {
                         .foregroundColor(.customBlack)
                     
                 }
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                Button(action: {
+                    self.showTodoPad = true
+                },label: {
                     Text("할 일 추가")
                         .font(.system(size: 16))
-                        .fontWeight(.bold)
+                        .fontWeight(.medium)
                         .foregroundColor(.white)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
                         .background(Color.customGreen)
-                        .cornerRadius(5)
-                }
+                        .cornerRadius(5)}
+        
                 ).padding(.leading, 70)
+            }.sheet(isPresented: $showTodoPad) {
+                TodoPadView(viewModel: TodoViewModel())
+                    .presentationDetents([
+                        .height(300)
+                    ])
             }
         }
-        
     }
 }
 

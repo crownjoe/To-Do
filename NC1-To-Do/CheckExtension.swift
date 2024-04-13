@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CheckExtension: View {
     @State var finishTodo = false
+    @ObservedObject var viewModel = TodoViewModel()
     
     var body: some View {
         HStack{
@@ -28,13 +29,18 @@ struct CheckExtension: View {
                 }
             }).padding(.trailing, 6)
             
-            Text("스터디 참가하기")
-                .font(.system(size: 16))
-                .foregroundColor(.customBlack)
-                .padding(.trailing, 200)
-        }
+            HStack{
+                //Text("스터디 참가하기")
+                Text(viewModel.newToDo)
+                    .font(.system(size: 16))
+                    .foregroundColor(.customBlack)
+                    .padding(.leading, -12)
+                
+                Spacer()
+                
+            }}
         .padding(.vertical, 5)
-        .padding(.leading, 10)
+        .padding(.leading, 28)
     }
 }
 

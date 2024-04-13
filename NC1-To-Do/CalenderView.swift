@@ -25,6 +25,7 @@ struct CalenderView: View {
                 headerView
                 calendarGridView
             }
+            
             .padding(.horizontal, 20)
             .padding(.vertical, 20)
 
@@ -72,7 +73,7 @@ struct CalenderView: View {
     
     // MARK: - 년 월, 이전 달, 다음 달
     private var yearMonthView: some View {
-        HStack(alignment: .center, spacing: 20) {
+        HStack(alignment: .center, spacing: 12) {
             Button(
                 action: {
                     changeMonth(by: -1)
@@ -123,6 +124,7 @@ struct CalenderView: View {
                         
                         CellView(day: day, clicked: clicked, isToday: isToday)
                             .font(.system(size: 12))
+                            //.padding(.vertical, -6)
                         
                     } else if let prevMonthDate = Calendar.current.date(
                         byAdding: .day,
@@ -133,6 +135,7 @@ struct CalenderView: View {
                         
                         CellView(day: day, isCurrentMonthDay: false)
                             .font(.system(size: 12))
+                            //.padding(.vertical, -6)
                     }
                 }
                 .onTapGesture {
@@ -154,7 +157,7 @@ private struct CellView: View {
     private var isCurrentMonthDay: Bool
     
     private var textColor: Color {
-        if clicked {
+        if clicked || isToday {
             return Color.customGreen
         } else if isCurrentMonthDay {
             return Color.customBlack
@@ -177,20 +180,20 @@ private struct CellView: View {
     
     fileprivate var body: some View {
         VStack {
-            
-            if clicked { //클릭 위치 노랑색
+            if clicked || isToday { //클릭 위치 노랑색
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow)
-                    .frame(width: 8, height: 8)
+                    .frame(width: 6, height: 6)
+                    .padding(.bottom, -6)
             } else {
                 Spacer()
-                    .frame(height: 16)
+                    .frame(height: 8)
             }
             Image("img_before_todo")
                 .overlay(Text(String(day)))
                 .foregroundColor(textColor)
         }
-        .frame(height: 60)
+        .frame(height: 50)
     }
 }
 
@@ -268,7 +271,7 @@ private extension CalenderView {
     func canMoveToPreviousMonth() -> Bool {
         let currentDate = Date()
         let calendar = Calendar.current
-        let targetDate = calendar.date(byAdding: .month, value: -3, to: currentDate) ?? currentDate
+        let targetDate = calendar.date(byAdding: .month, value: -100, to: currentDate) ?? currentDate
         
         if adjustedMonth(by: -1) < targetDate {
             return false
@@ -280,7 +283,7 @@ private extension CalenderView {
     func canMoveToNextMonth() -> Bool {
         let currentDate = Date()
         let calendar = Calendar.current
-        let targetDate = calendar.date(byAdding: .month, value: 3, to: currentDate) ?? currentDate
+        let targetDate = calendar.date(byAdding: .month, value: 100, to: currentDate) ?? currentDate
         
         if adjustedMonth(by: 1) > targetDate {
             return false

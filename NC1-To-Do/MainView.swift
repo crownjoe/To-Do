@@ -9,31 +9,29 @@ import SwiftUI
 
 struct MainView: View {
     let background = Color.customBackGray
+    @StateObject var viewModel : TodoViewModel
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                background
+        
+        ZStack {
+            background
+            ScrollView{
                 VStack {
                     ProfileHeaderView()
                     
                     CalenderView(month: Date())
-                    
-                    CheckExtension()
-                    CheckExtension()
+                       
                     CheckExtension()
                     
                     Spacer()
-
-
                 }
-            }.edgesIgnoringSafeArea(.bottom) //아래쪽만 ignore
-        }
+            }
+        }.edgesIgnoringSafeArea(.bottom) //아래쪽만 ignore
     }
 }
 
 #Preview {
-    MainView()
+    MainView(viewModel: TodoViewModel())
 }
 
 

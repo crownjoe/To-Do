@@ -6,13 +6,46 @@
 //
 
 import SwiftUI
+import Foundation
 
-struct ToDoPadView: View {
+
+struct TodoPadView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var viewModel = TodoViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            Text("Kaya,\n할 일을 입력해주세요!")
+                .font(.system(size: 20))
+                .fontWeight(.medium)
+                .padding(.trailing, 120)
+                .padding(.bottom, 20)
+                .padding(.top, 20)
+            
+            TextField("새로운 할 일을 입력해주세요 👀", text: $viewModel.newToDo)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .border(Color.customGray)
+            .padding(.horizontal, 50)
+            
+            Button(action: {
+                viewModel.addItem()
+                self.presentationMode.wrappedValue.dismiss()
+            },label: {
+                Text("저장하기")
+                    .font(.system(size: 16))
+                    .fontWeight(.medium)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 120)
+                    .padding(.vertical, 10)
+                    .background(Color.customGreen)
+                    .cornerRadius(5)}
+            )
+            .padding(.top, 40)
+        }
     }
 }
 
 #Preview {
-    ToDoPadView()
+    TodoPadView()
 }
+

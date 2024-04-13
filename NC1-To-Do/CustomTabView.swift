@@ -4,7 +4,7 @@ struct CustomTabView: View {
     
     var body: some View {
         TabView {
-            MainView()
+            MainView(viewModel: TodoViewModel())
                 .tabItem {
                     Image(systemName: "house")
                 }
@@ -23,4 +23,5 @@ struct CustomTabView: View {
 #Preview {
     CustomTabView()
 }
+
 
