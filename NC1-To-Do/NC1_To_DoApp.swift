@@ -11,7 +11,7 @@ import SwiftUI
 struct NC1_To_DoApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView(viewModel: TodoViewModel())
+            CustomTabView()
         }
     }
 }

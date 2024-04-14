@@ -3,8 +3,10 @@ import SwiftUI
 struct CustomTabView: View {
     
     var body: some View {
+        
+        
         TabView {
-            MainView(viewModel: TodoViewModel())
+            MainView()
                 .tabItem {
                     Image(systemName: "house")
                 }

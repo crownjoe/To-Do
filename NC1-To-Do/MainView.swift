@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     let background = Color.customBackGray
-    @StateObject var viewModel : TodoViewModel
+    @StateObject var model = TodoModel()
     
     var body: some View {
         
@@ -17,21 +17,22 @@ struct MainView: View {
             background
             ScrollView{
                 VStack {
-                    ProfileHeaderView()
+                    
+                    ProfileHeaderView(model: model)
                     
                     CalenderView(month: Date())
                        
-                    CheckExtension()
+                    CheckExtension(model: model)
                     
                     Spacer()
                 }
             }
-        }.edgesIgnoringSafeArea(.bottom) //아래쪽만 ignore
+        }.edgesIgnoringSafeArea(.bottom) //아래만 ignore
     }
 }
 
 #Preview {
-    MainView(viewModel: TodoViewModel())
+    MainView()
 }
 
 

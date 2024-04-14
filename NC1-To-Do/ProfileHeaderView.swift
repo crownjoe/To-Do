@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileHeaderView: View {
     @State private var showTodoPad = false
+    @ObservedObject var model: TodoModel
     
     let profileBackground = Color.white
     
@@ -46,15 +47,13 @@ struct ProfileHeaderView: View {
         
                 ).padding(.leading, 70)
             }.sheet(isPresented: $showTodoPad) {
-                TodoPadView(viewModel: TodoViewModel())
-                    .presentationDetents([
-                        .height(300)
-                    ])
+                TodoPadView(model: model)
+                    .presentationDetents([.height(300)])
             }
         }
     }
 }
 
 #Preview {
-    ProfileHeaderView()
+    ProfileHeaderView(model: TodoModel())
 }

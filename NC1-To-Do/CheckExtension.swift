@@ -8,42 +8,36 @@
 import SwiftUI
 
 struct CheckExtension: View {
-    @State var finishTodo = false
-    @ObservedObject var viewModel = TodoViewModel()
+    @ObservedObject var model: TodoModel
     
     var body: some View {
-        HStack{
-            Button(action: {
-                finishTodo = !finishTodo
-            }, label: {
-                if finishTodo == false {
-                    Image(systemName: "circle")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(.customGray)
-                } else {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(.customGray)
+        VStack {
+            ForEach(model.items) { item in
+                HStack {
+                    Button(action: {
+                        model.completeItem(id: item.id)
+                    }, label: {
+                        Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.customGray)
+                    }).padding(.trailing, 6)
+                    
+                    Text(item.todo)
+                        .font(.system(size: 16))
+                        .foregroundColor(.black)
+                        .strikethrough(item.isCompleted, color: .customGray)
+                    
+                    Spacer()
                 }
-            }).padding(.trailing, 6)
+                .padding(.vertical, 5)
+                .padding(.leading, 28)
+            }
             
-            HStack{
-                //Text("스터디 참가하기")
-                Text(viewModel.newToDo)
-                    .font(.system(size: 16))
-                    .foregroundColor(.customBlack)
-                    .padding(.leading, -12)
-                
-                Spacer()
-                
-            }}
-        .padding(.vertical, 5)
-        .padding(.leading, 28)
+        }
     }
 }
 
 #Preview {
-    CheckExtension()
+    CheckExtension(model: TodoModel())
 }

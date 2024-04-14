@@ -11,7 +11,8 @@ import Foundation
 
 struct TodoPadView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel = TodoViewModel()
+    @ObservedObject var model: TodoModel
+    @State private var newTodo = ""
     
     var body: some View {
         VStack{
@@ -22,14 +23,20 @@ struct TodoPadView: View {
                 .padding(.bottom, 20)
                 .padding(.top, 20)
             
-            TextField("새로운 할 일을 입력해주세요 👀", text: $viewModel.newToDo)
+            TextField("새로운 할 일을 입력해주세요 👀", text: $newTodo, onCommit: {
+                model.addItem(title: newTodo)
+                newTodo = ""
+            })
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .border(Color.customGray)
             .padding(.horizontal, 50)
             
             Button(action: {
-                viewModel.addItem()
+                model.addItem(title: newTodo)
+                newTodo = ""
+
                 self.presentationMode.wrappedValue.dismiss()
+               
             },label: {
                 Text("저장하기")
                     .font(.system(size: 16))
@@ -46,6 +53,6 @@ struct TodoPadView: View {
 }
 
 #Preview {
-    TodoPadView()
+    TodoPadView(model: TodoModel())
 }
 
