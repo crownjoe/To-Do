@@ -8,6 +8,7 @@ extension Color{
     static let customGray = Color(hex: "D2D4DF")
     static let customBlack = Color(hex: "1D1F29")
     static let customBackGray = Color(hex: "F7F7FA")
+    static let customFontBlack = Color(hex: "36394F")
 }
 
 extension Color {

@@ -28,7 +28,7 @@ struct CalenderView: View {
             
             .padding(.horizontal, 20)
             .padding(.vertical, 20)
-
+            
             Path { path in
                 path.move(to: CGPoint(x: 20, y: 0))
                 path.addLine(to: CGPoint(x: 375, y: 0))
@@ -36,8 +36,8 @@ struct CalenderView: View {
             .stroke(style: StrokeStyle(lineWidth: 1.5, lineCap: .round, dash: [7]))
             .foregroundColor(.customGray)
             .frame(height: 10)
+            
         }
-        
     }
     
     // MARK: - 년 월, 성취도, 요일 헤더 뷰
@@ -124,7 +124,6 @@ struct CalenderView: View {
                         
                         CellView(day: day, clicked: clicked, isToday: isToday)
                             .font(.system(size: 12))
-                            //.padding(.vertical, -6)
                         
                     } else if let prevMonthDate = Calendar.current.date(
                         byAdding: .day,
@@ -135,7 +134,6 @@ struct CalenderView: View {
                         
                         CellView(day: day, isCurrentMonthDay: false)
                             .font(.system(size: 12))
-                            //.padding(.vertical, -6)
                     }
                 }
                 .onTapGesture {
@@ -157,9 +155,10 @@ private struct CellView: View {
     private var isCurrentMonthDay: Bool
     
     private var textColor: Color {
-        if clicked || isToday {
+        if clicked {
             return Color.customGreen
-        } else if isCurrentMonthDay {
+        }
+        else if isCurrentMonthDay {
             return Color.customBlack
         } else {
             return Color.customGray
@@ -180,12 +179,13 @@ private struct CellView: View {
     
     fileprivate var body: some View {
         VStack {
-            if clicked || isToday { //클릭 위치 노랑색
+            if clicked {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow)
                     .frame(width: 6, height: 6)
                     .padding(.bottom, -6)
-            } else {
+            }
+            else {
                 Spacer()
                     .frame(height: 8)
             }
