@@ -20,7 +20,7 @@ struct MainView: View {
                     
                     ProfileHeaderView(model: model)
                     
-                    CalenderView(month: Date())
+                    CalenderView()
                        
                     CheckExtension(model: model)
                     

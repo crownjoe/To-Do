@@ -23,10 +23,7 @@ struct TodoPadView: View {
                 .padding(.bottom, 20)
                 .padding(.top, 20)
             
-            TextField("새로운 할 일을 입력해주세요 👀", text: $newTodo, onCommit: {
-                model.addItem(title: newTodo)
-                newTodo = ""
-            })
+            TextField("새로운 할 일을 입력해주세요 👀", text: $newTodo)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .border(Color.customGray)
             .padding(.horizontal, 50)
@@ -34,7 +31,6 @@ struct TodoPadView: View {
             Button(action: {
                 model.addItem(title: newTodo)
                 newTodo = ""
-
                 self.presentationMode.wrappedValue.dismiss()
                
             },label: {

@@ -8,17 +8,10 @@
 import SwiftUI
 
 struct CalenderView: View {
+    @StateObject var model = TodoModel()
     @State private var month: Date = Date()
-    @State private var clickedCurrentMonthDates: Date?
-    
-    init(
-        month: Date = Date(),
-        clickedCurrentMonthDates: Date? = nil
-    ) {
-        _month = State(initialValue: month)
-        _clickedCurrentMonthDates = State(initialValue: clickedCurrentMonthDates)
-    }
-    
+    @State private var clickedCurrentMonthDates: Date = Date()
+   
     var body: some View {
         VStack {
             VStack {
@@ -136,11 +129,18 @@ struct CalenderView: View {
                             .font(.system(size: 12))
                     }
                 }
+                .onAppear {
+                    if getDate(for: index).formattedCalendarDayDate == today.formattedCalendarDayDate {
+                        let date = getDate(for: index)
+                        clickedCurrentMonthDates = date
+                    }
+                }
                 .onTapGesture {
                     if 0 <= index && index < daysInMonth {
                         let date = getDate(for: index)
                         clickedCurrentMonthDates = date
                     }
+                    //model.sele
                 }
             }
         }
@@ -153,6 +153,7 @@ private struct CellView: View {
     private var clicked: Bool
     private var isToday: Bool
     private var isCurrentMonthDay: Bool
+    
     
     private var textColor: Color {
         if clicked {
@@ -179,6 +180,7 @@ private struct CellView: View {
     
     fileprivate var body: some View {
         VStack {
+            
             if clicked {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow)

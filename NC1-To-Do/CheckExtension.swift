@@ -12,7 +12,7 @@ struct CheckExtension: View {
     
     var body: some View {
         VStack {
-            ForEach(model.items) { item in
+            ForEach(model.originals) { item in
                 HStack {
                     Button(action: {
                         model.completeItem(id: item.id)
@@ -20,13 +20,13 @@ struct CheckExtension: View {
                         Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
                             .resizable()
                             .frame(width: 20, height: 20)
-                            .foregroundColor(.customGray)
+                            .foregroundColor(.customCheckGray)
                     }).padding(.trailing, 6)
                     
                     Text(item.todo)
                         .font(.system(size: 16))
                         .foregroundColor(.black)
-                        .strikethrough(item.isCompleted, color: .customGray)
+                        .strikethrough(item.isCompleted, color: .customCheckGray)
                     
                     Spacer()
                 }

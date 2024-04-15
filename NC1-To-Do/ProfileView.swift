@@ -15,7 +15,7 @@ struct ProfileView: View {
             Background
             VStack{
                 Image("img_profile_back")
-                    .padding(.bottom, 10)
+                    .padding(.bottom, 20)
                 Text("Kaya")
                     .fontWeight(.bold)
                     .font(.system(size: 40))
@@ -34,7 +34,7 @@ struct ProfileView: View {
                 },label: {
                     Text("저장하기")
                         .font(.system(size: 20))
-                        .fontWeight(.regular)
+                        .fontWeight(.medium)
                         .foregroundColor(.white)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
