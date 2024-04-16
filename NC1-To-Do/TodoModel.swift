@@ -27,14 +27,24 @@ class TodoModel: ObservableObject {
     func completeItem(id: UUID) {
         if let index = items.firstIndex(where: { $0.id == id }) {
             items[index].isCompleted.toggle()
+            originals[index].isCompleted = true
         }
     }
+    
+    func getAchievement() -> String {
+        let completedCount = originals.filter { $0.isCompleted }.count
+        let totalCount = originals.count
+        guard totalCount > 0 else { return "0%" }
+        let achievementPercentage = Double(completedCount) / Double(totalCount)
+        return String(format: "%.0f%%", achievementPercentage * 100)
+    }
+
+    
     
     func filterDate(date: Date) {
         items = originals.filter { item in
             return item.todoDate.dateFormat("yyyyMMdd") == date.dateFormat("yyyyMMdd")
         }
-        print("filterDate:",items)
     }
 }
 
