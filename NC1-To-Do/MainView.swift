@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     let background = Color.customBackGray
     @StateObject var model = TodoModel()
-    
+    @State var clickedCurrentMonthDates: Date = Date()
     var body: some View {
         
         ZStack {
@@ -18,11 +18,11 @@ struct MainView: View {
             ScrollView{
                 VStack {
                     
-                    ProfileHeaderView(model: model)
+                    ProfileHeaderView(clickedCurrentMonthDates: $clickedCurrentMonthDates).environmentObject(model)
                     
-                    CalenderView()
-                       
-                    CheckExtension(model: model)
+                    CalenderView(clickedCurrentMonthDates: $clickedCurrentMonthDates).environmentObject(model)
+                    
+                    CheckExtension().environmentObject(model)
                     
                     Spacer()
                 }

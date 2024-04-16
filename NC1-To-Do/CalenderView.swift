@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct CalenderView: View {
-    @StateObject var model = TodoModel()
+    @EnvironmentObject var model: TodoModel
     @State private var month: Date = Date()
-    @State private var clickedCurrentMonthDates: Date = Date()
-   
+    @Binding var clickedCurrentMonthDates: Date
+    
     var body: some View {
         VStack {
             VStack {
@@ -98,7 +98,6 @@ struct CalenderView: View {
         }
     }
     
-    // MARK: - 날짜 그리드 뷰
     private var calendarGridView: some View {
         let daysInMonth: Int = numberOfDays(in: month)
         let firstWeekday: Int = firstWeekdayOfMonth(in: month) - 1
@@ -107,45 +106,50 @@ struct CalenderView: View {
         let visibleDaysOfNextMonth = numberOfRows * 7 - (daysInMonth + firstWeekday)
         
         return LazyVGrid(columns: Array(repeating: GridItem(), count: 7)) {
-            ForEach(-firstWeekday ..< daysInMonth + visibleDaysOfNextMonth, id: \.self) { index in
-                Group {
-                    if index > -1 && index < daysInMonth {
-                        let date = getDate(for: index)
-                        let day = Calendar.current.component(.day, from: date)
-                        let clicked = clickedCurrentMonthDates == date
-                        let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
-                        
-                        CellView(day: day, clicked: clicked, isToday: isToday)
-                            .font(.system(size: 12))
-                        
-                    } else if let prevMonthDate = Calendar.current.date(
-                        byAdding: .day,
-                        value: index + lastDayOfMonthBefore,
-                        to: previousMonth()
-                    ) {
-                        let day = Calendar.current.component(.day, from: prevMonthDate)
-                        
-                        CellView(day: day, isCurrentMonthDay: false)
-                            .font(.system(size: 12))
-                    }
-                }
-                .onAppear {
-                    if getDate(for: index).formattedCalendarDayDate == today.formattedCalendarDayDate {
-                        let date = getDate(for: index)
-                        clickedCurrentMonthDates = date
-                    }
-                }
-                .onTapGesture {
-                    if 0 <= index && index < daysInMonth {
-                        let date = getDate(for: index)
-                        clickedCurrentMonthDates = date
-                    }
-                    //model.sele
-                }
+            ForEach(-firstWeekday..<daysInMonth + visibleDaysOfNextMonth, id: \.self) { index in
+                cellViewForIndex(index, daysInMonth: daysInMonth, firstWeekday: firstWeekday, lastDayOfMonthBefore: lastDayOfMonthBefore)
             }
+        }.onTapGesture {
+            model.filterDate(date: clickedCurrentMonthDates)
+            //model.filterDate(date: clickedCurrentMonthDates)
         }
     }
+    
+    
+    private func cellViewForIndex(_ index: Int, daysInMonth: Int, firstWeekday: Int, lastDayOfMonthBefore: Int) -> some View {
+        let isCurrentMonthDay = index >= 0 && index < daysInMonth
+        let day: Int
+        let date: Date
+        
+        if isCurrentMonthDay {
+            date = getDate(for: index)
+            day = Calendar.current.component(.day, from: date)
+        } else {
+            date = Calendar.current.date(byAdding: .day, value: index + lastDayOfMonthBefore, to: previousMonth())!
+            day = Calendar.current.component(.day, from: date)
+        }
+        
+        let clicked = clickedCurrentMonthDates == date
+        let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
+        
+        return CellView(day: day, clicked: clicked && isCurrentMonthDay, isToday: isToday && isCurrentMonthDay)
+            .font(.system(size: 12))
+            .onAppear {
+                if date.formattedCalendarDayDate == today.formattedCalendarDayDate {
+                    clickedCurrentMonthDates = date
+                }
+            }
+            .onTapGesture {
+                
+                if isCurrentMonthDay {
+                    clickedCurrentMonthDates = date
+                    model.filterDate(date: clickedCurrentMonthDates)
+                }
+            }
+    }
+    
 }
+
 
 // MARK: - 일자 셀 뷰
 private struct CellView: View {
@@ -161,6 +165,7 @@ private struct CellView: View {
         }
         else if isCurrentMonthDay {
             return Color.customBlack
+            
         } else {
             return Color.customGray
         }
@@ -186,6 +191,7 @@ private struct CellView: View {
                     .fill(.yellow)
                     .frame(width: 6, height: 6)
                     .padding(.bottom, -6)
+                
             }
             else {
                 Spacer()
@@ -315,6 +321,8 @@ extension Date {
     }
 }
 
-#Preview {
-    CalenderView()
-}
+
+//#Preview {
+//    CalenderView(clickedCurrentMonthDates: Date())
+//}
+

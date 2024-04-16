@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ProfileHeaderView: View {
     @State private var showTodoPad = false
-    @ObservedObject var model: TodoModel
+    @Binding var clickedCurrentMonthDates: Date
+    @EnvironmentObject var model: TodoModel
     
     let profileBackground = Color.white
     
@@ -47,13 +48,13 @@ struct ProfileHeaderView: View {
         
                 ).padding(.leading, 70)
             }.sheet(isPresented: $showTodoPad) {
-                TodoPadView(model: model)
+                TodoPadView(clickedCurrentMonthDates: clickedCurrentMonthDates, model: model)
                     .presentationDetents([.height(300)])
             }
         }
     }
 }
 
-#Preview {
-    ProfileHeaderView(model: TodoModel())
-}
+//#Preview {
+//    ProfileHeaderView(clickedCurrentMonthDates: Date(), model: TodoModel())
+//}

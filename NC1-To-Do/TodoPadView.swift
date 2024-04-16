@@ -11,6 +11,7 @@ import Foundation
 
 struct TodoPadView: View {
     @Environment(\.presentationMode) var presentationMode
+    @State var clickedCurrentMonthDates: Date
     @ObservedObject var model: TodoModel
     @State private var newTodo = ""
     
@@ -29,8 +30,10 @@ struct TodoPadView: View {
             .padding(.horizontal, 50)
             
             Button(action: {
-                model.addItem(title: newTodo)
+                model.addItem(title: newTodo, todoDate: clickedCurrentMonthDates)
                 newTodo = ""
+                
+                model.filterDate(date: clickedCurrentMonthDates)
                 self.presentationMode.wrappedValue.dismiss()
                
             },label: {
@@ -49,6 +52,6 @@ struct TodoPadView: View {
 }
 
 #Preview {
-    TodoPadView(model: TodoModel())
+    TodoPadView(clickedCurrentMonthDates: Date(), model: TodoModel())
 }
 

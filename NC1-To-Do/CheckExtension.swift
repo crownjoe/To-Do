@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct CheckExtension: View {
-    @ObservedObject var model: TodoModel
+    @EnvironmentObject var model: TodoModel
     
     var body: some View {
         VStack {
-            ForEach(model.originals) { item in
+            ForEach(model.items) { item in
                 HStack {
                     Button(action: {
                         model.completeItem(id: item.id)
@@ -38,6 +38,6 @@ struct CheckExtension: View {
     }
 }
 
-#Preview {
-    CheckExtension(model: TodoModel())
-}
+//#Preview {
+//    CheckExtension(model: TodoModel())
+//}
