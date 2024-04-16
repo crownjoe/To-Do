@@ -19,7 +19,7 @@ struct ProfileHeaderView: View {
             profileBackground
                 .frame(height: 100)
             HStack{
-                Image("img_profile")
+                Image("img_profile_kaya")
                     .padding(.trailing, 10)
                 
                 VStack{
