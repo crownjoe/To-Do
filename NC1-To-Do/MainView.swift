@@ -22,7 +22,7 @@ struct MainView: View {
                     
                     CalenderView(clickedCurrentMonthDates: $clickedCurrentMonthDates).environmentObject(model)
                     
-                    CheckExtension().environmentObject(model)
+                    TodoShowView(clickedCurrentMonthDates: $clickedCurrentMonthDates).environmentObject(model)
                     
                     Spacer()
                 }

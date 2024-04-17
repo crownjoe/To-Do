@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CheckExtension: View {
     @EnvironmentObject var model: TodoModel
+    @Binding var clickedCurrentMonthDates: Date
     
     var body: some View {
         VStack {
@@ -16,6 +17,7 @@ struct CheckExtension: View {
                 HStack {
                     Button(action: {
                         model.completeItem(id: item.id)
+                        model.filterDate(date: clickedCurrentMonthDates)
                     }, label: {
                         Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
                             .resizable()
