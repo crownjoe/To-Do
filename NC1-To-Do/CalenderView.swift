@@ -15,11 +15,12 @@ struct CalenderView: View {
     @State private var showingAlert = false
     @State private var achievementMessage = ""
     
+    
     var body: some View {
         VStack {
             VStack {
                 headerView
-                calendarGridView
+                calendarGridView.environmentObject(TodoModel())
             }
             
             .padding(.horizontal, 20)
@@ -38,7 +39,6 @@ struct CalenderView: View {
     
     // MARK: - 년 월, 성취도, 요일 헤더 뷰
     private var headerView: some View {
-        
         VStack {
             HStack {
                 yearMonthView
@@ -47,14 +47,14 @@ struct CalenderView: View {
                 
                 Button(
                     action: {
-                        self.achievementMessage = "이번 달 성취도는 \(model.getAchievement())입니다👍"
+                        self.achievementMessage = "이번 달 성취도는 \(model.getMonthAchievement())입니다 맨!👍"
                         self.showingAlert = true },
                     label: {
-                        Image("img_achievement") //성취도 버튼
+                        Image("img_achievement")
                             .frame(width: 50, height: 50)
-                            .overlay(Text(String(model.getAchievement()))
+                            .overlay(Text(String(model.getMonthAchievement()))
                                 .fontWeight(.bold)
-                                .font(.system(size: 14))
+                                .font(.system(size: 13))
                                 .foregroundColor(.white)
                                      
                             )
@@ -94,7 +94,7 @@ struct CalenderView: View {
             )
             .disabled(!canMoveToPreviousMonth())
             
-            Text(month, formatter: Self.calendarHeaderDateFormatter)
+            Text(month.dateFormat("YYYY.MM"))
                 .font(.system(size: 24))
                 .fontWeight(.bold)
                 .foregroundColor(.customBlack)
@@ -114,6 +114,7 @@ struct CalenderView: View {
     }
     
     private var calendarGridView: some View {
+        
         let daysInMonth: Int = numberOfDays(in: month)
         let firstWeekday: Int = firstWeekdayOfMonth(in: month) - 1
         let lastDayOfMonthBefore = numberOfDays(in: previousMonth())
@@ -125,11 +126,12 @@ struct CalenderView: View {
                 Group {
                     if index > -1 && index < daysInMonth {
                         let date = getDate(for: index)
-                        let day = Calendar.current.component(.day, from: date)
+                        //let day = Calendar.current.component(.day, from: date)
                         let clicked = clickedCurrentMonthDates == date
                         let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
                         
-                        CellView(day: day, clicked: clicked, isToday: isToday)
+                        CellView(date: date, clicked: clicked, isToday: isToday)
+                            .environmentObject(model)
                             .font(.system(size: 12))
                         
                     } else if let prevMonthDate = Calendar.current.date(
@@ -137,9 +139,10 @@ struct CalenderView: View {
                         value: index + lastDayOfMonthBefore,
                         to: previousMonth()
                     ) {
-                        let day = Calendar.current.component(.day, from: prevMonthDate)
+                        //let day = Calendar.current.component(.day, from: prevMonthDate)
                         
-                        CellView(day: day, isCurrentMonthDay: false)
+                        CellView(date: prevMonthDate, isCurrentMonthDay: false)
+                            .environmentObject(model)
                             .font(.system(size: 12))
                     }
                 }
@@ -151,6 +154,7 @@ struct CalenderView: View {
                 }
                 .onTapGesture {
                     if 0 <= index && index < daysInMonth {
+                        model.imageIndex = index
                         let date = getDate(for: index)
                         clickedCurrentMonthDates = date
                         model.filterDate(date: clickedCurrentMonthDates)
@@ -163,7 +167,9 @@ struct CalenderView: View {
 }
 // MARK: - 일자 셀 뷰
 private struct CellView: View {
-    private var day: Int
+    @EnvironmentObject var model: TodoModel
+    var date:Date
+    var day:String{ date.dateFormat("dd") }
     private var clicked: Bool
     private var isToday: Bool
     private var isCurrentMonthDay: Bool
@@ -182,36 +188,54 @@ private struct CellView: View {
     }
     
     fileprivate init(
-        day: Int,
+        date: Date,
         clicked: Bool = false,
         isToday: Bool = false,
         isCurrentMonthDay: Bool = true
     ) {
-        self.day = day
+        self.date = date
         self.clicked = clicked
         self.isToday = isToday
         self.isCurrentMonthDay = isCurrentMonthDay
     }
-    
-    fileprivate var body: some View {
+    var body: some View {
         VStack {
-            
             if clicked {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow)
                     .frame(width: 6, height: 6)
                     .padding(.bottom, -6)
                 
+                if let item = model.items.first(where: { item in
+                    item.todoDate.dateFormat("mmdd") == self.date.dateFormat("mmdd")
+                }), let imageName = item.imageName{
+                    Image(imageName)
+                        .overlay(Text(String(day)))
+                        .foregroundColor(textColor)
+                }else{
+                    Image("img_before_todo")
+                        .overlay(Text(String(day)))
+                        .foregroundColor(textColor)
+                }
             }
             else {
                 Spacer()
                     .frame(height: 8)
+                
+                if let item = model.items.first(where: { item in
+                    item.todoDate.dateFormat("mmdd") == self.date.dateFormat("mmdd")
+                }), let imageName = item.imageName{
+                    Image(imageName)
+                        .overlay(Text(String(day)))
+                        .foregroundColor(textColor)
+                }else{
+                    Image("img_before_todo")
+                        .overlay(Text(String(day)))
+                        .foregroundColor(textColor)
+                }
             }
-            Image("img_before_todo")
-                .overlay(Text(String(day)))
-                .foregroundColor(textColor)
-        }
-        .frame(height: 50)
+            
+        }.frame(height: 50)
     }
 }
 
@@ -222,13 +246,6 @@ private extension CalenderView {
         let components = Calendar.current.dateComponents([.year, .month, .day], from: now)
         return Calendar.current.date(from: components)!
     }
-    
-    static let calendarHeaderDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY.MM"
-        return formatter
-    }()
-    
     static let weekdaySymbols: [String] = Calendar.current.shortWeekdaySymbols
 }
 

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DF5AF6BD2BC7BB3A00B75EFA /* CheckExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5AF6BC2BC7BB3A00B75EFA /* CheckExtension.swift */; };
+		DF5AF6BD2BC7BB3A00B75EFA /* TodoShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5AF6BC2BC7BB3A00B75EFA /* TodoShowView.swift */; };
 		DF5AF6BF2BC7C12400B75EFA /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5AF6BE2BC7C12400B75EFA /* ProfileHeaderView.swift */; };
 		DF78589A2BC6848200736B15 /* NC1_To_DoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7858992BC6848200736B15 /* NC1_To_DoApp.swift */; };
 		DF78589C2BC6848200736B15 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF78589B2BC6848200736B15 /* MainView.swift */; };
@@ -43,7 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DF5AF6BC2BC7BB3A00B75EFA /* CheckExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckExtension.swift; sourceTree = "<group>"; };
+		DF5AF6BC2BC7BB3A00B75EFA /* TodoShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoShowView.swift; sourceTree = "<group>"; };
 		DF5AF6BE2BC7C12400B75EFA /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		DF7858962BC6848200736B15 /* NC1-To-Do.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NC1-To-Do.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF7858992BC6848200736B15 /* NC1_To_DoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NC1_To_DoApp.swift; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 				DFDFDC832BC8097400BA4213 /* TodoPadView.swift */,
 				DFFD579F2BC92560006FC374 /* TodoModel.swift */,
 				DFB4B8392BCE095200E7D47D /* DateExtension.swift */,
-				DF5AF6BC2BC7BB3A00B75EFA /* CheckExtension.swift */,
+				DF5AF6BC2BC7BB3A00B75EFA /* TodoShowView.swift */,
 				DFA8C5F92BC6AC4B0052DAC3 /* CalenderView.swift */,
 				DFC427162BC68FE80087FE03 /* ColorExtension.swift */,
 				DFC427142BC68C1B0087FE03 /* ProfileView.swift */,
@@ -288,7 +288,7 @@
 				DFC427132BC68B1C0087FE03 /* CustomTabView.swift in Sources */,
 				DFDFDC842BC8097400BA4213 /* TodoPadView.swift in Sources */,
 				DFFD57A02BC92560006FC374 /* TodoModel.swift in Sources */,
-				DF5AF6BD2BC7BB3A00B75EFA /* CheckExtension.swift in Sources */,
+				DF5AF6BD2BC7BB3A00B75EFA /* TodoShowView.swift in Sources */,
 				DFA8C5FA2BC6AC4B0052DAC3 /* CalenderView.swift in Sources */,
 				DFB4B83A2BCE095200E7D47D /* DateExtension.swift in Sources */,
 				DF5AF6BF2BC7C12400B75EFA /* ProfileHeaderView.swift in Sources */,
