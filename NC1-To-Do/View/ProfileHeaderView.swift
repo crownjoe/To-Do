@@ -9,7 +9,14 @@ import SwiftUI
 
 struct ProfileHeaderView: View {
     @State private var showTodoPad = false
+    @State private var imgData: Data?
+    @State private var showPicker: Bool = false
+    
     @Binding var clickedCurrentMonthDates: Date
+    
+    @Binding var name: String
+    @Binding var plan: String
+    
     @EnvironmentObject var model: TodoModel
     
     let profileBackground = Color.white
@@ -23,15 +30,19 @@ struct ProfileHeaderView: View {
                     .padding(.trailing, 10)
                 
                 VStack{
-                    Text("Kaya")
+                    Text(name)
                         .fontWeight(.bold)
                         .font(.system(size: 16))
                         .foregroundColor(.customBlack)
                         .frame(width: 100, alignment: .leading)
                         .padding(.bottom, 0.3)
-                    Text("포항에서 살아남기")
+                        .padding(.leading, -4)
+                        .multilineTextAlignment(.leading)
+                    
+                    Text(plan)
                         .font(.system(size: 14))
                         .foregroundColor(.customBlack)
+                        .multilineTextAlignment(.leading)
                     
                 }
                 Button(action: {

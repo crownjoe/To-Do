@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @State private var showingImagePicker = false
+    
+    @Binding var name: String
+    @Binding var plan: String
+    
     let Background = Color.customBackGray
     
     var body: some View {
@@ -16,21 +21,26 @@ struct ProfileView: View {
             VStack{
                 Image("img_profile_back")
                     .padding(.bottom, 20)
-                Text("Kaya")
+                
+                TextField("이름을 적어주세요!", text: $name)
                     .fontWeight(.bold)
                     .font(.system(size: 40))
                     .foregroundColor(.customFontBlack)
-                    .frame(width: 100, alignment: .center)
+                    .frame(width: 100, height: 50, alignment: .center)
                     .padding(.bottom, 10)
+                    .multilineTextAlignment(.center)
                 
-                Text("포항에서 살아남기")
+                TextField("한줄소개를 적어주세요!", text: $plan)
                     .fontWeight(.regular)
                     .font(.system(size: 20))
                     .foregroundColor(.customFontBlack)
                     .frame(width: 200, alignment: .center)
                     .padding(.bottom, 80)
+                    .multilineTextAlignment(.center)
                 
                 Button(action: {
+                    
+                    
                 },label: {
                     Text("저장하기")
                         .font(.system(size: 20))
@@ -48,6 +58,6 @@ struct ProfileView: View {
     }
 }
 
-#Preview {
-    ProfileView()
-}
+//#Preview {
+//    ProfileView()
+//}

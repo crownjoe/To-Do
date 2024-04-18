@@ -9,11 +9,10 @@ import SwiftUI
 
 struct CalenderView: View {
     @EnvironmentObject var model: TodoModel
-    @State private var month: Date = Date()
     @Binding var clickedCurrentMonthDates: Date
     
     @State private var showingAlert = false
-    @State private var achievementMessage = ""
+    @State private var alertMessage = ""
     
     
     var body: some View {
@@ -37,6 +36,7 @@ struct CalenderView: View {
         }
     }
     
+    
     // MARK: - 년 월, 성취도, 요일 헤더 뷰
     private var headerView: some View {
         VStack {
@@ -47,21 +47,30 @@ struct CalenderView: View {
                 
                 Button(
                     action: {
-                        self.achievementMessage = "이번 달 성취도는 \(model.getMonthAchievement())입니다 맨!👍"
-                        self.showingAlert = true },
+                        model.achievement = model.getMonthAchievement(date: model.month)
+                        
+                        if model.achievement == "0%" {
+                            alertMessage = "이번 달 성취도가 0%이에요 맨! 다음 달은 더 노력해봅시다! 💪"
+                        } else if model.achievement == "100%" {
+                            alertMessage = "이번 달 성취도 100% 달성! 완벽티비 🎉👍"
+                        } else {
+                            alertMessage = "이번 달 성취도는 \(model.achievement)입니다. 좋은 성과네요, 킵고잉!🏃🏻‍➡️"
+                        }
+                        self.showingAlert = true
+                    },
                     label: {
                         Image("img_achievement")
                             .frame(width: 50, height: 50)
-                            .overlay(Text(String(model.getMonthAchievement()))
+                            .overlay(Text(String(model.getMonthAchievement(date: model.month)))
                                 .fontWeight(.bold)
                                 .font(.system(size: 13))
                                 .foregroundColor(.white)
-                                     
+                                    
                             )
-                        
                     }
-                ).alert(isPresented: $showingAlert) {
-                    Alert(title: Text(achievementMessage), dismissButton: .default(Text("확인")))
+                )
+                .alert(isPresented: $showingAlert) {
+                    Alert(title: Text(alertMessage), dismissButton: .default(Text("확인")))
                 }
             }
             .padding(.horizontal, 10)
@@ -85,6 +94,8 @@ struct CalenderView: View {
             Button(
                 action: {
                     changeMonth(by: -1)
+                    model.copyBeforeMonth()
+                    model.achievement = model.getMonthAchievement(date: model.month)
                 },
                 label: {
                     Image(systemName: "chevron.left")
@@ -94,7 +105,7 @@ struct CalenderView: View {
             )
             .disabled(!canMoveToPreviousMonth())
             
-            Text(month.dateFormat("YYYY.MM"))
+            Text(model.month.dateFormat("YYYY.MM"))
                 .font(.system(size: 24))
                 .fontWeight(.bold)
                 .foregroundColor(.customBlack)
@@ -102,6 +113,8 @@ struct CalenderView: View {
             Button(
                 action: {
                     changeMonth(by: 1)
+                    model.copyAfterMonth()
+                    model.achievement = model.getMonthAchievement(date: model.month)
                 },
                 label: {
                     Image(systemName: "chevron.right")
@@ -115,8 +128,8 @@ struct CalenderView: View {
     
     private var calendarGridView: some View {
         
-        let daysInMonth: Int = numberOfDays(in: month)
-        let firstWeekday: Int = firstWeekdayOfMonth(in: month) - 1
+        let daysInMonth: Int = numberOfDays(in: model.month)
+        let firstWeekday: Int = firstWeekdayOfMonth(in: model.month) - 1
         let lastDayOfMonthBefore = numberOfDays(in: previousMonth())
         let numberOfRows = Int(ceil(Double(daysInMonth + firstWeekday) / 7.0))
         let visibleDaysOfNextMonth = numberOfRows * 7 - (daysInMonth + firstWeekday)
@@ -138,15 +151,21 @@ struct CalenderView: View {
                         value: index + lastDayOfMonthBefore,
                         to: previousMonth()
                     ) {
-                        CellView(date: prevMonthDate, isCurrentMonthDay: false)
-                            .environmentObject(model)
-                            .font(.system(size: 12))
+                        VStack{
+                            Spacer()
+                                .frame(height: 8)
+                            Image("img_before_todo")
+                        }
                     }
                 }
                 .onAppear {
                     if getDate(for: index).formattedCalendarDayDate == today.formattedCalendarDayDate {
                         let date = getDate(for: index)
                         clickedCurrentMonthDates = date
+                        model.achievement = model.getMonthAchievement(date: model.month)
+                        model.filterDate(date: clickedCurrentMonthDates)
+                        
+                        model.newimageName(date: clickedCurrentMonthDates)
                     }
                 }
                 .onTapGesture {
@@ -156,7 +175,6 @@ struct CalenderView: View {
                         clickedCurrentMonthDates = date
                         model.filterDate(date: clickedCurrentMonthDates)
                         model.newimageName(date: clickedCurrentMonthDates)
-                    
                     }
                 }
             }
@@ -164,7 +182,9 @@ struct CalenderView: View {
         }
     }
 }
+
 // MARK: - 일자 셀 뷰
+                
 private struct CellView: View {
     @EnvironmentObject var model: TodoModel
     var date: Date
@@ -172,7 +192,6 @@ private struct CellView: View {
     private var clicked: Bool
     private var isToday: Bool
     private var isCurrentMonthDay: Bool
-    
     
     private var textColor: Color {
         if clicked {
@@ -201,14 +220,15 @@ private struct CellView: View {
         VStack {
             if clicked {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(.red)
+                    .fill(Color.customYellow)
                     .frame(width: 6, height: 6)
                     .padding(.bottom, -6)
                 
+                
                 Image("\(model.imageNames[Int(day)! - 1])")
                     .overlay(Text(String(day)))
-                    .foregroundColor(.red)
-
+                    .foregroundColor(.customYellow)
+                
                 
             } else {
                 Spacer()
@@ -218,8 +238,6 @@ private struct CellView: View {
                     .overlay(Text(String(day)))
                     .foregroundColor(textColor)
             }
-            
-            
         }
         .frame(height: 50)
         
@@ -244,8 +262,8 @@ private extension CalenderView {
         let calendar = Calendar.current
         guard let firstDayOfMonth = calendar.date(
             from: DateComponents(
-                year: calendar.component(.year, from: month),
-                month: calendar.component(.month, from: month),
+                year: calendar.component(.year, from: model.month),
+                month: calendar.component(.month, from: model.month),
                 day: 1
             )
         ) else {
@@ -278,7 +296,7 @@ private extension CalenderView {
     
     /// 이전 월 마지막 일자
     func previousMonth() -> Date {
-        let components = Calendar.current.dateComponents([.year, .month], from: month)
+        let components = Calendar.current.dateComponents([.year, .month], from: model.month)
         let firstDayOfMonth = Calendar.current.date(from: components)!
         let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: firstDayOfMonth)!
         
@@ -287,7 +305,7 @@ private extension CalenderView {
     
     /// 월 변경
     func changeMonth(by value: Int) {
-        self.month = adjustedMonth(by: value)
+        self.model.month = adjustedMonth(by: value)
     }
     
     /// 이전 월로 이동 가능한지 확인
@@ -316,10 +334,10 @@ private extension CalenderView {
     
     /// 변경하려는 월 반환
     func adjustedMonth(by value: Int) -> Date {
-        if let newMonth = Calendar.current.date(byAdding: .month, value: value, to: month) {
+        if let newMonth = Calendar.current.date(byAdding: .month, value: value, to: model.month) {
             return newMonth
         }
-        return month
+        return model.month
     }
 }
 

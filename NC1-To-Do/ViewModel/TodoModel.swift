@@ -7,6 +7,8 @@
 
 
 import Foundation
+import SwiftData
+
 
 struct TodoItem: Identifiable, Codable {
     var id = UUID()
@@ -19,7 +21,12 @@ class TodoModel: ObservableObject {
     @Published var originals: [TodoItem] = []
     @Published var items: [TodoItem] = []
     @Published var imageIndex: Int = 0
+    
+    @Published var imageNamesBefore = Array(repeating: "", count: 31)
     @Published var imageNames = Array(repeating: "img_before_todo", count: 31)
+    
+    @Published var achievement: String = ""
+    @Published var month: Date = Date()
     
     
     func addItem(title: String, todoDate: Date) {
@@ -37,12 +44,16 @@ class TodoModel: ObservableObject {
         }
     }
     
-    func getMonthAchievement() -> String {
-        let completedCount = originals.filter { $0.isCompleted }.count
-        let totalCount = originals.count
+    
+    func getMonthAchievement(date: Date) -> String {
+        let filteredOriginals = originals.filter { $0.todoDate.dateFormat("YYYYMM") == date.dateFormat("YYYYMM") }
+        let completedCount = filteredOriginals.filter { $0.isCompleted }.count
+        
+        let totalCount = filteredOriginals.count
         guard totalCount > 0 else { return "0%" }
         let achievementPercentage = Double(completedCount) / Double(totalCount)
         return String(format: "%.0f%%", achievementPercentage * 100)
+        
     }
     
     func filterDate(date: Date) {
@@ -52,16 +63,28 @@ class TodoModel: ObservableObject {
     }
     
     func newimageName(date: Date) {
-        if let clickedDay = Int(date.dateFormat("dd")) {
-            let achievementImageName = calculateAchievement()
-            print(achievementImageName, "achievementImageName")
-            imageNames[clickedDay - 1] = achievementImageName
-            print(imageNames[clickedDay - 1])
-        } else {
-            print("날짜 변환 오류")
+        if date.dateFormat("YYYYMM") == month.dateFormat("YYYYMM"){
+            if let clickedDay = Int(date.dateFormat("dd")){
+                let achievementImageName = calculateAchievement()
+                imageNames[clickedDay - 1] = achievementImageName
+            } else {
+                print("날짜 변환 오류")
+            }
         }
     }
     
+    
+    
+    
+    func copyBeforeMonth() {
+        imageNamesBefore = imageNames
+        imageNames = Array(repeating: "img_before_todo", count: 31)
+    }
+    
+    func copyAfterMonth() {
+        imageNames = imageNamesBefore
+        imageNamesBefore = Array(repeating: "img_before_todo", count: 31)
+    }
     
     func calculateAchievement() -> String {
         let completedCount = items.filter { $0.isCompleted }.count
@@ -89,12 +112,7 @@ class TodoModel: ObservableObject {
         default:
             return "img_before_todo"
         }
+        
     }
 }
-
-
-
-
-
-
 

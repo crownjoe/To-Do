@@ -10,6 +10,7 @@ extension Color{
     static let customBackGray = Color(hex: "F7F7FA")
     static let customFontBlack = Color(hex: "36394F")
     static let customCheckGray = Color(hex: "8A8989")
+    static let customYellow = Color(hex: "F8BA00")
 }
 
 extension Color {

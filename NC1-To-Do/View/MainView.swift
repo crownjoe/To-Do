@@ -11,6 +11,10 @@ struct MainView: View {
     let background = Color.customBackGray
     @StateObject var model = TodoModel()
     @State var clickedCurrentMonthDates: Date = Date()
+    
+    @Binding var name: String
+    @Binding var plan: String
+    
     var body: some View {
         
         ZStack {
@@ -18,7 +22,7 @@ struct MainView: View {
             ScrollView{
                 VStack {
                     
-                    ProfileHeaderView(clickedCurrentMonthDates: $clickedCurrentMonthDates).environmentObject(model)
+                    ProfileHeaderView(clickedCurrentMonthDates: $clickedCurrentMonthDates, name: $name, plan: $plan).environmentObject(model)
                     
                     CalenderView(clickedCurrentMonthDates: $clickedCurrentMonthDates).environmentObject(model)
                     
@@ -31,8 +35,8 @@ struct MainView: View {
     }
 }
 
-#Preview {
-    MainView()
-}
+//#Preview {
+//    MainView()
+//}
 
 

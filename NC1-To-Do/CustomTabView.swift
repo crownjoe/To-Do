@@ -2,17 +2,19 @@ import SwiftUI
 
 struct CustomTabView: View {
     
+    @State var name: String = "Kaya"
+    @State var plan: String = "포항에서 살아남자!!"
+    
     var body: some View {
         
-        
         TabView {
-            MainView()
+            MainView(name: $name, plan: $plan)
                 .tabItem {
                     Image(systemName: "house")
                 }
                 .tag(1)
             
-            ProfileView()
+            ProfileView(name: $name, plan: $plan)
                 .tabItem {
                     Image(systemName: "person.crop.circle")
                 }
