@@ -34,6 +34,7 @@ struct TodoPadView: View {
                 newTodo = ""
                 
                 model.filterDate(date: clickedCurrentMonthDates)
+                model.newimageName(date: clickedCurrentMonthDates)
                 self.presentationMode.wrappedValue.dismiss()
                
             },label: {

@@ -11,7 +11,6 @@ struct CalenderView: View {
     @EnvironmentObject var model: TodoModel
     @State private var month: Date = Date()
     @Binding var clickedCurrentMonthDates: Date
-    //@Binding var imageName: String
     
     @State private var showingAlert = false
     @State private var achievementMessage = ""
@@ -127,7 +126,6 @@ struct CalenderView: View {
                 Group {
                     if index > -1 && index < daysInMonth {
                         let date = getDate(for: index)
-                        //let day = Calendar.current.component(.day, from: date)
                         let clicked = clickedCurrentMonthDates == date
                         let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
                         
@@ -140,8 +138,6 @@ struct CalenderView: View {
                         value: index + lastDayOfMonthBefore,
                         to: previousMonth()
                     ) {
-                        //let day = Calendar.current.component(.day, from: prevMonthDate)
-                        
                         CellView(date: prevMonthDate, isCurrentMonthDay: false)
                             .environmentObject(model)
                             .font(.system(size: 12))
@@ -159,7 +155,7 @@ struct CalenderView: View {
                         let date = getDate(for: index)
                         clickedCurrentMonthDates = date
                         model.filterDate(date: clickedCurrentMonthDates)
-                        model.imageName = "img_before_todo"
+                        model.newimageName(date: clickedCurrentMonthDates)
                     
                     }
                 }
@@ -209,7 +205,7 @@ private struct CellView: View {
                     .frame(width: 6, height: 6)
                     .padding(.bottom, -6)
                 
-                Image("\(model.imageName)")
+                Image("\(model.imageNames[Int(day)! - 1])")
                     .overlay(Text(String(day)))
                     .foregroundColor(.red)
 
@@ -218,7 +214,7 @@ private struct CellView: View {
                 Spacer()
                     .frame(height: 8)
                 
-                Image("img_before_todo")
+                Image("\(model.imageNames[Int(day)! - 1])")
                     .overlay(Text(String(day)))
                     .foregroundColor(textColor)
             }

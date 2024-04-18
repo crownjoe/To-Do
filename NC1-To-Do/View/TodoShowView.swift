@@ -10,7 +10,6 @@ import SwiftUI
 struct TodoShowView: View {
     @EnvironmentObject var model: TodoModel
     @Binding var clickedCurrentMonthDates: Date
-    //@Binding var imageName: String
     
     var body: some View {
         VStack {
@@ -18,7 +17,7 @@ struct TodoShowView: View {
                 HStack {
                     Button(action: {
                         model.completeItem(id: item.id)
-                        model.setImageName()
+                        model.newimageName(date: clickedCurrentMonthDates)
                         
                     }, label: {
                         Image(systemName: item.wrappedValue.isCompleted ? "checkmark.circle.fill" : "circle")
