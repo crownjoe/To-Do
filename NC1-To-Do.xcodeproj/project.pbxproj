@@ -89,6 +89,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DF36AC2B2BD000A4003BB01F /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				DFB4B8392BCE095200E7D47D /* DateExtension.swift */,
+				DFC427162BC68FE80087FE03 /* ColorExtension.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		DF36AC2C2BD000C1003BB01F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				DFFD579F2BC92560006FC374 /* TodoModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		DF36AC2D2BD000D5003BB01F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DF78589B2BC6848200736B15 /* MainView.swift */,
+				DFA8C5F92BC6AC4B0052DAC3 /* CalenderView.swift */,
+				DF5AF6BE2BC7C12400B75EFA /* ProfileHeaderView.swift */,
+				DF36AC2E2BD000EB003BB01F /* Todo */,
+				DFC427142BC68C1B0087FE03 /* ProfileView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DF36AC2E2BD000EB003BB01F /* Todo */ = {
+			isa = PBXGroup;
+			children = (
+				DFDFDC832BC8097400BA4213 /* TodoPadView.swift */,
+				DF5AF6BC2BC7BB3A00B75EFA /* TodoShowView.swift */,
+			);
+			name = Todo;
+			sourceTree = "<group>";
+		};
 		DF78588D2BC6848200736B15 = {
 			isa = PBXGroup;
 			children = (
@@ -114,15 +152,9 @@
 			children = (
 				DF7858992BC6848200736B15 /* NC1_To_DoApp.swift */,
 				DFC427122BC68B1C0087FE03 /* CustomTabView.swift */,
-				DF78589B2BC6848200736B15 /* MainView.swift */,
-				DF5AF6BE2BC7C12400B75EFA /* ProfileHeaderView.swift */,
-				DFDFDC832BC8097400BA4213 /* TodoPadView.swift */,
-				DFFD579F2BC92560006FC374 /* TodoModel.swift */,
-				DFB4B8392BCE095200E7D47D /* DateExtension.swift */,
-				DF5AF6BC2BC7BB3A00B75EFA /* TodoShowView.swift */,
-				DFA8C5F92BC6AC4B0052DAC3 /* CalenderView.swift */,
-				DFC427162BC68FE80087FE03 /* ColorExtension.swift */,
-				DFC427142BC68C1B0087FE03 /* ProfileView.swift */,
+				DF36AC2D2BD000D5003BB01F /* View */,
+				DF36AC2C2BD000C1003BB01F /* ViewModel */,
+				DF36AC2B2BD000A4003BB01F /* Helper */,
 				DF78589D2BC6848300736B15 /* Assets.xcassets */,
 				DF78589F2BC6848300736B15 /* Preview Content */,
 			);

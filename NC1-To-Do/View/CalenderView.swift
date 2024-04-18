@@ -11,6 +11,7 @@ struct CalenderView: View {
     @EnvironmentObject var model: TodoModel
     @State private var month: Date = Date()
     @Binding var clickedCurrentMonthDates: Date
+    //@Binding var imageName: String
     
     @State private var showingAlert = false
     @State private var achievementMessage = ""
@@ -158,6 +159,8 @@ struct CalenderView: View {
                         let date = getDate(for: index)
                         clickedCurrentMonthDates = date
                         model.filterDate(date: clickedCurrentMonthDates)
+                        model.imageName = "img_before_todo"
+                    
                     }
                 }
             }
@@ -168,8 +171,8 @@ struct CalenderView: View {
 // MARK: - 일자 셀 뷰
 private struct CellView: View {
     @EnvironmentObject var model: TodoModel
-    var date:Date
-    var day:String{ date.dateFormat("dd") }
+    var date: Date
+    var day: String{ date.dateFormat("dd") }
     private var clicked: Bool
     private var isToday: Bool
     private var isCurrentMonthDay: Bool
@@ -202,42 +205,31 @@ private struct CellView: View {
         VStack {
             if clicked {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(.yellow)
+                    .fill(.red)
                     .frame(width: 6, height: 6)
                     .padding(.bottom, -6)
                 
-                if let item = model.items.first(where: { item in
-                    item.todoDate.dateFormat("mmdd") == self.date.dateFormat("mmdd")
-                }), let imageName = item.imageName{
-                    Image(imageName)
-                        .overlay(Text(String(day)))
-                        .foregroundColor(textColor)
-                }else{
-                    Image("img_before_todo")
-                        .overlay(Text(String(day)))
-                        .foregroundColor(textColor)
-                }
-            }
-            else {
+                Image("\(model.imageName)")
+                    .overlay(Text(String(day)))
+                    .foregroundColor(.red)
+
+                
+            } else {
                 Spacer()
                     .frame(height: 8)
                 
-                if let item = model.items.first(where: { item in
-                    item.todoDate.dateFormat("mmdd") == self.date.dateFormat("mmdd")
-                }), let imageName = item.imageName{
-                    Image(imageName)
-                        .overlay(Text(String(day)))
-                        .foregroundColor(textColor)
-                }else{
-                    Image("img_before_todo")
-                        .overlay(Text(String(day)))
-                        .foregroundColor(textColor)
-                }
+                Image("img_before_todo")
+                    .overlay(Text(String(day)))
+                    .foregroundColor(textColor)
             }
             
-        }.frame(height: 50)
+            
+        }
+        .frame(height: 50)
+        
     }
 }
+
 
 // MARK: - CalendarView Static 프로퍼티
 private extension CalenderView {

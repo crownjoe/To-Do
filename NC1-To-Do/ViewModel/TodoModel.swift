@@ -13,18 +13,17 @@ struct TodoItem: Identifiable, Codable {
     var todo: String
     var isCompleted: Bool = false
     var todoDate: Date = Date()
-    var imageName: String?
 }
 
 class TodoModel: ObservableObject {
     @Published var originals: [TodoItem] = []
     @Published var items: [TodoItem] = []
     
-    @Published var imageName: String = ""
+    @Published var imageName: String = "img_before_todo"
     @Published var imageIndex: Int = 0
     
     func addItem(title: String, todoDate: Date) {
-        let newItem = TodoItem(todo: title, isCompleted: false, todoDate: todoDate, imageName: "img_before_todo")
+        let newItem = TodoItem(todo: title, isCompleted: false, todoDate: todoDate)
         originals.append(newItem)
     }
     
@@ -38,20 +37,10 @@ class TodoModel: ObservableObject {
         }
     }
     
-    func updateDayAchievement(id: UUID) {
-        guard let index = items.firstIndex(where: { $0.id == id }) else {
-            return
-        }
-        
-        guard let originalsindex = originals.firstIndex(where: { $0.id == id }) else {
-            return
-        }
-        
+    func setImageName(){
         let completedCount = items.filter { $0.isCompleted }.count
         let totalCount = items.count
         let achievement = (Double(completedCount) / Double(totalCount)) * 1000
-        
-        let imageName: String
         
         switch achievement {
         case 1..<125:
@@ -73,12 +62,7 @@ class TodoModel: ObservableObject {
         default:
             imageName = "img_before_todo"
         }
-        print(imageName, "모델 속 이미지")
-        items[index].imageName = imageName
-        originals[originalsindex].imageName = imageName
-        
     }
-
     
     func getMonthAchievement() -> String {
         let completedCount = originals.filter { $0.isCompleted }.count
