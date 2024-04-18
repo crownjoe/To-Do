@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileView: View {
-    @State private var showingImagePicker = false
+    @State var selectedItems: [PhotosPickerItem] = []
+    @State private var imageData: Data?
+    @State private var showPicker: Bool = false
     
     @Binding var name: String
     @Binding var plan: String
@@ -19,8 +22,27 @@ struct ProfileView: View {
         ZStack {
             Background
             VStack{
-                Image("img_profile_back")
-                    .padding(.bottom, 20)
+                ZStack{
+                    Image("img_profile_back")
+                        .padding(.bottom, 20)
+                    
+                    PhotosPicker(selection: $selectedItems,
+                                 maxSelectionCount: 1,
+                                 matching: .images) {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundColor(.customGreen)
+                            .font(.system(size: 60))
+        
+                    }
+                    if let imageData, let uiImage = UIImage(data: imageData) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .frame(width: 140, height: 140, alignment: .center)
+                            .scaledToFill()
+                            .clipped()
+                            .clipShape(Circle())
+                    }
+                }
                 
                 TextField("이름을 적어주세요!", text: $name)
                     .fontWeight(.bold)
@@ -50,14 +72,47 @@ struct ProfileView: View {
                         .padding(.vertical, 10)
                         .background(Color.customGreen)
                         .cornerRadius(20)
-                    }
+                }
                 )
             }
         }.ignoresSafeArea(.all)
+            .onChange(of: selectedItems) { selectedItems in
+                
+                if let selectedItem = selectedItems.first {
+                    
+                    selectedItem.loadTransferable(type: Data.self) { result in
+                        switch result {
+                        case .success(let imageData):
+                            if let imageData {
+                                self.imageData = imageData
+                                print(imageData)
+                            } else {
+                                print("No supported content type found.")
+                            }
+                        case .failure(let error):
+                            fatalError(error.localizedDescription)
+                        }
+                    }
+                }
+                
+            }
+        
+        
         
     }
 }
-
-//#Preview {
-//    ProfileView()
+    
+//    private var PhotoPickerContent: some View {
+//        PhotosPicker(selection: $selectedItems,
+//                     maxSelectionCount: 1,
+//                     matching: .images) {
+//            Image(systemName: "photo")
+//                .foregroundColor(.black)
+//        }
+//                     .frame(width: 28, height: 21)
+//    }
 //}
+    
+//    #Preview {
+//        ProfileView(name: $name, plan: $plan)
+//    }

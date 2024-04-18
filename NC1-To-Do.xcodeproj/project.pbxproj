@@ -16,6 +16,7 @@
 		DF7858AB2BC6848300736B15 /* NC1_To_DoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7858AA2BC6848300736B15 /* NC1_To_DoTests.swift */; };
 		DF7858B52BC6848300736B15 /* NC1_To_DoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7858B42BC6848300736B15 /* NC1_To_DoUITests.swift */; };
 		DF7858B72BC6848300736B15 /* NC1_To_DoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7858B62BC6848300736B15 /* NC1_To_DoUITestsLaunchTests.swift */; };
+		DF9EDB172BD181DE000233D6 /* PhotoSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9EDB162BD181DE000233D6 /* PhotoSelectorView.swift */; };
 		DFA8C5FA2BC6AC4B0052DAC3 /* CalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA8C5F92BC6AC4B0052DAC3 /* CalenderView.swift */; };
 		DFB4B83A2BCE095200E7D47D /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4B8392BCE095200E7D47D /* DateExtension.swift */; };
 		DFC427132BC68B1C0087FE03 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC427122BC68B1C0087FE03 /* CustomTabView.swift */; };
@@ -55,6 +56,7 @@
 		DF7858B02BC6848300736B15 /* NC1-To-DoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NC1-To-DoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF7858B42BC6848300736B15 /* NC1_To_DoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NC1_To_DoUITests.swift; sourceTree = "<group>"; };
 		DF7858B62BC6848300736B15 /* NC1_To_DoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NC1_To_DoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DF9EDB162BD181DE000233D6 /* PhotoSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorView.swift; sourceTree = "<group>"; };
 		DFA8C5F92BC6AC4B0052DAC3 /* CalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderView.swift; sourceTree = "<group>"; };
 		DFB4B8392BCE095200E7D47D /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		DFC427122BC68B1C0087FE03 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				DF5AF6BE2BC7C12400B75EFA /* ProfileHeaderView.swift */,
 				DF36AC2E2BD000EB003BB01F /* Todo */,
 				DFC427142BC68C1B0087FE03 /* ProfileView.swift */,
+				DF9EDB162BD181DE000233D6 /* PhotoSelectorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				DFC427132BC68B1C0087FE03 /* CustomTabView.swift in Sources */,
 				DFDFDC842BC8097400BA4213 /* TodoPadView.swift in Sources */,
 				DFFD57A02BC92560006FC374 /* TodoModel.swift in Sources */,
+				DF9EDB172BD181DE000233D6 /* PhotoSelectorView.swift in Sources */,
 				DF5AF6BD2BC7BB3A00B75EFA /* TodoShowView.swift in Sources */,
 				DFA8C5FA2BC6AC4B0052DAC3 /* CalenderView.swift in Sources */,
 				DFB4B83A2BCE095200E7D47D /* DateExtension.swift in Sources */,
@@ -493,6 +497,8 @@
 				DEVELOPMENT_TEAM = 4QMNM64P9Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -522,6 +528,8 @@
 				DEVELOPMENT_TEAM = 4QMNM64P9Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

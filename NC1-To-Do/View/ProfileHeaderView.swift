@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ProfileHeaderView: View {
     @State private var showTodoPad = false
-    @State private var imgData: Data?
-    @State private var showPicker: Bool = false
     
     @Binding var clickedCurrentMonthDates: Date
     
